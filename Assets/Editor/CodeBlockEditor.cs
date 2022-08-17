@@ -12,19 +12,18 @@ public class CodeBlockEditor : Editor
         ">",
         "<",
         "<=",
-        "&&",
-        "||",
-        "!=",
-        "=="
+        "AND",
+        "OR",
+        "NOT",
     };
 
     private List<string> operators = new List<string>()
     {
         "+",
         "-",
-        "x",
+        "*",
         ":",
-        "="
+        "=",
     };
 
     public override void OnInspectorGUI()
