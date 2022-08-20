@@ -22,6 +22,11 @@ public class GameManager : MonoBehaviour
                 _scanlines.SetActive(active);
             }
         }
+
+        if (_canvas.worldCamera == null)
+        {
+            _canvas.worldCamera = Camera.main;
+        }
     }
 
     public void ToggleScanLines()
