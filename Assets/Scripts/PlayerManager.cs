@@ -56,20 +56,20 @@ public class PlayerManager : MonoBehaviour
 
     private void FixedUpdate()
     {
+        _rb2d.MovePosition(_rb2d.position +
+                           _movement * moveSpeed * Time.deltaTime);
+
+        if (_holding && _holdingBox != null)
+        {
+            var position = transform.localPosition;
+            var anchor = anchors.FirstOrDefault(x => x.direction == LookingDirection.Up);
+            
+            _holdingBox.transform.localPosition = new Vector3(position.x + anchor.offset.x, 
+                position.y + anchor.offset.y);
+        }
+        
         if (_movement != Vector2.zero)
         {
-            _rb2d.MovePosition(_rb2d.position +
-                               _movement * moveSpeed * Time.deltaTime);
-
-            if (_holding && _holdingBox != null)
-            {
-                var position = transform.localPosition;
-                var anchor = anchors.FirstOrDefault(x => x.direction == LookingDirection.Up);
-            
-                _holdingBox.transform.localPosition = new Vector3(position.x + anchor.offset.x, 
-                    position.y + anchor.offset.y);
-            }
-            
             if (_movement.x > 0f)
             {
                 _animator.SetBool(Right, true);

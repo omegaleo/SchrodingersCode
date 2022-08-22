@@ -25,8 +25,9 @@ public class CodeBlock : MonoBehaviour
 
     public void SetText()
     {
+        var lockedText = (locked) ? " (Locked)" : "";
         text.text = value;
-        gameObject.name = value;
+        gameObject.name = value + lockedText;
         lockImg.gameObject.SetActive(locked);
     }
 

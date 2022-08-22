@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public enum CodeBlockType
 {
@@ -22,4 +23,29 @@ public class DirectionPlacementAnchors
 {
     public LookingDirection direction;
     public Vector2 offset;
+}
+
+[Serializable]
+public class BlockTileAssociation
+{
+    public Vector3Int tilePos;
+    public Transform codeBlock;
+
+    public BlockTileAssociation()
+    {
+    }
+
+    public BlockTileAssociation(Vector3Int pos, Transform codeBlock)
+    {
+        tilePos = pos;
+        this.codeBlock = codeBlock;
+    }
+    
+    public void CenterBlockOnTile(Tilemap tilemap)
+    {
+        if (Camera.main != null)
+        {
+            codeBlock.position = tilemap.CellToWorld(new Vector3Int(tilePos.x, tilePos.y, 0)) + new Vector3(0.5f, 0.5f, 0);
+        }
+    }
 }
