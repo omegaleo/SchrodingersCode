@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CodeBlock : MonoBehaviour
 {
@@ -11,8 +12,11 @@ public class CodeBlock : MonoBehaviour
 
     public string value;
 
+    public bool locked = false;
+    
     [Header("UI")] 
     public TMP_Text text;
+    public Image lockImg;
     
     private void Start()
     {
@@ -22,5 +26,13 @@ public class CodeBlock : MonoBehaviour
     public void SetText()
     {
         text.text = value;
+        gameObject.name = value;
+        lockImg.gameObject.SetActive(locked);
+    }
+
+    public void SetText(string value)
+    {
+        this.value = value;
+        SetText();
     }
 }

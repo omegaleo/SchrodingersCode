@@ -1,30 +1,52 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
-
+    [SerializeField] private Transform boxHolder;
+    [SerializeField] private Transform ground;
+    [SerializeField] private List<DirectionPlacementAnchors> anchors;
     private Vector2 _movement;
 
-    private Rigidbody2D _rb2d;
-    private Animator _animator;
     private static readonly int Right = Animator.StringToHash(MoveRight);
     private static readonly int Left = Animator.StringToHash(MoveLeft);
     private static readonly int Up = Animator.StringToHash(MoveUp);
     private static readonly int Down = Animator.StringToHash(MoveDown);
+    private static readonly int Box = Animator.StringToHash(HoldingBox);
 
-    private const string MoveRight = "MoveRight"; 
-    private const string MoveLeft = "MoveLeft"; 
-    private const string MoveUp = "MovingUp"; 
-    private const string MoveDown = "MovingDown"; 
+    private const string MoveRight = "MoveRight";
+    private const string MoveLeft = "MoveLeft";
+    private const string MoveUp = "MovingUp";
+    private const string MoveDown = "MovingDown";
     private const string HoldingBox = "HoldingBox";
 
+    private Rigidbody2D _rb2d;
+    private Animator _animator;
     private bool _holding;
-    private static readonly int Box = Animator.StringToHash(HoldingBox);
+    private GameObject _colliding;
+    private GameObject _holdingBox;
+    private LookingDirection _direction;
+
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.CompareTag("CodeBlock"))
+        {
+            _colliding = col.gameObject;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("CodeBlock"))
+        {
+            _colliding = null;
+        }
+    }
 
     private void Start()
     {
@@ -34,36 +56,52 @@ public class PlayerManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _rb2d.MovePosition(_rb2d.position +
-                           _movement * moveSpeed * Time.deltaTime);
+        if (_movement != Vector2.zero)
+        {
+            _rb2d.MovePosition(_rb2d.position +
+                               _movement * moveSpeed * Time.deltaTime);
 
-        if (_movement.x > 0f)
-        {
-            _animator.SetBool(Right, true);
-            _animator.SetBool(Left, false);
-            _animator.SetBool(Up, false);
-            _animator.SetBool(Down, false);
-        }
-        else if (_movement.x < 0f)
-        {
-            _animator.SetBool(Right, false);
-            _animator.SetBool(Left, true);
-            _animator.SetBool(Up, false);
-            _animator.SetBool(Down, false);
-        }
-        else if (_movement.y > 0f)
-        {
-            _animator.SetBool(Right, false);
-            _animator.SetBool(Left, false);
-            _animator.SetBool(Up, true);
-            _animator.SetBool(Down, false);
-        }
-        else if (_movement.y < 0f)
-        {
-            _animator.SetBool(Right, false);
-            _animator.SetBool(Left, false);
-            _animator.SetBool(Up, false);
-            _animator.SetBool(Down, true);
+            if (_holding && _holdingBox != null)
+            {
+                var position = transform.localPosition;
+                var anchor = anchors.FirstOrDefault(x => x.direction == LookingDirection.Up);
+            
+                _holdingBox.transform.localPosition = new Vector3(position.x + anchor.offset.x, 
+                    position.y + anchor.offset.y);
+            }
+            
+            if (_movement.x > 0f)
+            {
+                _animator.SetBool(Right, true);
+                _animator.SetBool(Left, false);
+                _animator.SetBool(Up, false);
+                _animator.SetBool(Down, false);
+                _direction = LookingDirection.Right;
+            }
+            else if (_movement.x < 0f)
+            {
+                _animator.SetBool(Right, false);
+                _animator.SetBool(Left, true);
+                _animator.SetBool(Up, false);
+                _animator.SetBool(Down, false);
+                _direction = LookingDirection.Left;
+            }
+            else if (_movement.y > 0f)
+            {
+                _animator.SetBool(Right, false);
+                _animator.SetBool(Left, false);
+                _animator.SetBool(Up, true);
+                _animator.SetBool(Down, false);
+                _direction = LookingDirection.Up;
+            }
+            else if (_movement.y < 0f)
+            {
+                _animator.SetBool(Right, false);
+                _animator.SetBool(Left, false);
+                _animator.SetBool(Up, false);
+                _animator.SetBool(Down, true);
+                _direction = LookingDirection.Down;
+            }
         }
         else
         {
@@ -81,10 +119,42 @@ public class PlayerManager : MonoBehaviour
 
     public void InteractDown(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed)
+        if (ctx.performed && (CanPickupBlock() || CanDropBlock()))
         {
             _holding = !_holding;
             _animator.SetBool(Box, _holding);
+
+            if (_holding)
+            {
+                _holdingBox = _colliding;
+                _holdingBox.transform.SetParent(boxHolder);
+                var anchor = anchors.FirstOrDefault(x => x.direction == LookingDirection.Up);
+                _holdingBox.transform.position = new Vector3(0f, anchor.offset.y, 0f);
+                _holdingBox.GetComponent<BoxCollider2D>().enabled = false;
+            }
+            else
+            {
+                var position = transform.localPosition;
+                var placePosition = Vector3.zero;
+                var anchor = anchors.FirstOrDefault(x => x.direction == _direction);
+                placePosition = anchor.offset;
+
+                _holdingBox.transform.localPosition = new Vector3(position.x + placePosition.x, 
+                    position.y + placePosition.y);
+                _holdingBox.transform.SetParent(ground);
+                _holdingBox.GetComponent<BoxCollider2D>().enabled = true;
+                _holdingBox = null;
+            }
         }
+    }
+
+    private bool CanDropBlock()
+    {
+        return (_holding && _holdingBox != null);
+    }
+
+    private bool CanPickupBlock()
+    {
+        return (!_holding && _colliding != null && !_colliding.GetComponent<CodeBlock>().locked);
     }
 }

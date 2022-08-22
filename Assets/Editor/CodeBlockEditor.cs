@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CustomEditor(typeof(CodeBlock))]
 public class CodeBlockEditor : Editor
@@ -30,6 +31,7 @@ public class CodeBlockEditor : Editor
     {
         var block = (CodeBlock) target;
 
+        EditorGUILayout.LabelField("Configuration");
         block.type = (CodeBlockType)EditorGUILayout.EnumPopup("Type", block.type);
         int selection = 0;
         switch (block.type)
@@ -50,7 +52,21 @@ public class CodeBlockEditor : Editor
                 block.value = EditorGUILayout.TextField("Value", block.value);
                 break;
         }
-
+        block.locked = EditorGUILayout.Toggle("Locked", block.locked);
+        
+        EditorGUILayout.LabelField("UI");
         block.text = (TMP_Text)EditorGUILayout.ObjectField("TMP_Text", block.text, typeof(TMP_Text));
+        block.lockImg = (Image)EditorGUILayout.ObjectField("Lock Image", block.lockImg, typeof(Image));
+
+        if (GUILayout.Button("Save"))
+        {
+            EditorUtility.SetDirty(block);
+        }
+        
+        EditorGUILayout.LabelField("Test Methods");
+        if (GUILayout.Button("Set Text"))
+        {
+            block.SetText();
+        }
     }
 }
