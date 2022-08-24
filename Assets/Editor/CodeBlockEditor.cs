@@ -68,5 +68,9 @@ public class CodeBlockEditor : Editor
         {
             block.SetText();
         }
+        if (GUILayout.Button("Toggle Glitched"))
+        {
+            block.ToggleGlitched();
+        }
     }
 }

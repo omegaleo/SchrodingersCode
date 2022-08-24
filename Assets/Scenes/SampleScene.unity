@@ -123,6 +123,138 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &94342694
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 94342695}
+  - component: {fileID: 94342699}
+  - component: {fileID: 94342698}
+  - component: {fileID: 94342697}
+  - component: {fileID: 94342696}
+  m_Layer: 0
+  m_Name: Main Camera (1)
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &94342695
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94342694}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 319265052}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &94342696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94342694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80c30f4104403cd4a820cd85b668bd1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isShortsCamera: 1
+--- !u!114 &94342697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94342694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+--- !u!81 &94342698
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94342694}
+  m_Enabled: 1
+--- !u!20 &94342699
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94342694}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 1
+  orthographic size: 5.92
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 0
+  m_HDR: 1
+  m_AllowMSAA: 0
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 0
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!1 &100489141
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,6 +402,7 @@ GameObject:
   - component: {fileID: 122529153}
   - component: {fileID: 122529152}
   - component: {fileID: 122529151}
+  - component: {fileID: 122529154}
   m_Layer: 0
   m_Name: DoorTrigger
   m_TagString: Untagged
@@ -449,6 +582,26 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &122529154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122529149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05009a9c2c5c0c34bbc674ec41fb5351, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockTiles:
+  - tilePos: {x: -6, y: 3, z: 0}
+    codeBlock: {fileID: 0}
+  - tilePos: {x: -5, y: 3, z: 0}
+    codeBlock: {fileID: 3387439023016742204}
+  - tilePos: {x: -4, y: 3, z: 0}
+    codeBlock: {fileID: 0}
+  door: {fileID: 1849430262}
 --- !u!114 &158211533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -564,6 +717,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1672550787}
+  - {fileID: 94342695}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -714,9 +868,9 @@ MonoBehaviour:
   - direction: 1
     offset: {x: 0, y: -160}
   - direction: 2
-    offset: {x: 125, y: -60}
+    offset: {x: 100, y: -60}
   - direction: 3
-    offset: {x: -125, y: -60}
+    offset: {x: -100, y: -60}
 --- !u!61 &319265056
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1928,6 +2082,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2034,6 +2189,19 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80c30f4104403cd4a820cd85b668bd1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isShortsCamera: 0
 --- !u!1 &570752423
 GameObject:
   m_ObjectHideFlags: 0
@@ -2504,6 +2672,7 @@ MonoBehaviour:
   type: 3
   value: +
   locked: 0
+  glitched: 0
   text: {fileID: 100489143}
   lockImg: {fileID: 1227971989}
 --- !u!114 &849573985
@@ -2649,6 +2818,7 @@ MonoBehaviour:
   type: 3
   value: =
   locked: 0
+  glitched: 0
   text: {fileID: 2111395330}
   lockImg: {fileID: 752618389}
 --- !u!114 &937254934
@@ -2794,6 +2964,7 @@ MonoBehaviour:
   type: 2
   value: 
   locked: 0
+  glitched: 0
   text: {fileID: 1857326927}
   lockImg: {fileID: 1958001686}
 --- !u!114 &995666261
@@ -3059,16 +3230,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockTiles:
-  - tilePos: {x: -7, y: -4}
+  - tilePos: {x: -7, y: -4, z: 0}
     codeBlock: {fileID: 0}
-  - tilePos: {x: -6, y: -4}
+  - tilePos: {x: -6, y: -4, z: 0}
     codeBlock: {fileID: 0}
-  - tilePos: {x: -5, y: -4}
+  - tilePos: {x: -5, y: -4, z: 0}
     codeBlock: {fileID: 0}
-  - tilePos: {x: -4, y: -4}
+  - tilePos: {x: -4, y: -4, z: 0}
     codeBlock: {fileID: 0}
-  - tilePos: {x: -3, y: -4}
+  - tilePos: {x: -3, y: -4, z: 0}
     codeBlock: {fileID: 0}
+  door: {fileID: 0}
 --- !u!114 &1006656360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3202,6 +3374,7 @@ MonoBehaviour:
   type: 0
   value: 1
   locked: 0
+  glitched: 0
   text: {fileID: 758926965}
   lockImg: {fileID: 1856134131}
 --- !u!114 &1108604067
@@ -6093,6 +6266,7 @@ MonoBehaviour:
   type: 0
   value: 1
   locked: 0
+  glitched: 0
   text: {fileID: 400209475}
   lockImg: {fileID: 1809515802}
 --- !u!114 &1482308900
@@ -6336,6 +6510,7 @@ GameObject:
   - component: {fileID: 1849430260}
   - component: {fileID: 1849430259}
   - component: {fileID: 1849430258}
+  - component: {fileID: 1849430262}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -6530,6 +6705,34 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &1849430262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849430256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63baa2d81ce8e7642b222888cab1ec53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftDoor: {x: -1, y: 5, z: 0}
+  rightDoor: {x: 0, y: 5, z: 0}
+  tiles:
+  - leftTile: {fileID: 11400000, guid: 2eeeacbb95e729341a008b15ab816939, type: 2}
+    rightTile: {fileID: 11400000, guid: d6978088e1d41dd4a9b9167c7e91c1eb, type: 2}
+  - leftTile: {fileID: 11400000, guid: c0d1e74a9715d6343a02a55ded6ebd4f, type: 2}
+    rightTile: {fileID: 11400000, guid: 965b3282d716c6d47a6dcb72eec1a996, type: 2}
+  - leftTile: {fileID: 11400000, guid: 78b732564a372f9488f284338b82b87a, type: 2}
+    rightTile: {fileID: 11400000, guid: 04cf7792bcb93604f8415795ace98669, type: 2}
+  - leftTile: {fileID: 11400000, guid: 24d203e2483629c4eb391cf8dd104a1b, type: 2}
+    rightTile: {fileID: 11400000, guid: 952a64add7b592b4e86cd5b750fdc7a5, type: 2}
+  - leftTile: {fileID: 11400000, guid: a78c7aca3f9f07745b10e163d7cd6d6f, type: 2}
+    rightTile: {fileID: 11400000, guid: 242944e07608281409d8f1469927ca33, type: 2}
+  - leftTile: {fileID: 11400000, guid: 7d8b80b9609ec434ab7b88eee4b20b10, type: 2}
+    rightTile: {fileID: 11400000, guid: ada3329c917cff7488bcce86dc0a38f2, type: 2}
+  secondsToWait: 0.1
 --- !u!1 &1856134129
 GameObject:
   m_ObjectHideFlags: 0
@@ -7399,6 +7602,7 @@ MonoBehaviour:
   type: 1
   value: '>'
   locked: 1
+  glitched: 0
   text: {fileID: 144264030025078298}
   lockImg: {fileID: 6330050117258020081}
 --- !u!1 &8286585079419996354

@@ -18,11 +18,25 @@ public enum LookingDirection
     Left
 }
 
+public enum EvalCheck
+{
+    CheckForTrue,
+    CheckForBug,
+    CheckForFalse
+}
+
 [Serializable]
 public class DirectionPlacementAnchors
 {
     public LookingDirection direction;
     public Vector2 offset;
+}
+
+[Serializable]
+public class DoorTiles
+{
+    public TileBase leftTile;
+    public TileBase rightTile;
 }
 
 [Serializable]

@@ -10,6 +10,27 @@ public class GameManager : MonoBehaviour
     [Header("UI")] 
     [SerializeField] private GameObject _scanlines;
 
+    [Header("Configuration")] 
+    public Material glitchedMaterial;
+    
+    public static GameManager instance;
+
+    [Header("Recording Options")] 
+    public bool recordForShorts; // Will toggle on the Player Camera instead of the current camera
+    
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
     private void Start()
     {
         _canvas = GetComponent<Canvas>();
