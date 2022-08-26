@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     public Material glitchedMaterial;
 
     public TileBase activatedCircuitTile;
+    public TileBase wallTile;
+    public TileBase groundTile;
     
     public static GameManager instance;
 
