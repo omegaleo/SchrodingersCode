@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,19 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private bool isShortsCamera;
+    [SerializeField] private float speed = 1f;
+    
+    public static CameraController instance;
+
+    private Vector3 targetPosition;
+    
+    void Awake()
+    {
+        if (instance == null && !isShortsCamera)
+        {
+            instance = this;
+        }
+    }
     
     void Start()
     {
@@ -18,5 +32,15 @@ public class CameraController : MonoBehaviour
         {
             camera.enabled = !isShortsCamera;
         }
+    }
+
+    private void Update()
+    {
+        transform.position = Vector3.Lerp(transform.position, targetPosition, speed * Time.deltaTime);
+    }
+
+    public void SetPosition(Vector2 position)
+    {
+        targetPosition = new Vector3(position.x, position.y, transform.position.z);
     }
 }

@@ -282,7 +282,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1831397517, guid: 7341734479e2d6c4b9c0d6c1523a9b95, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 07bfadca79aae114ab52dcce662623c5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -307,6 +307,7 @@ MonoBehaviour:
   type: 0
   value: 10
   locked: 0
+  glitched: 0
   text: {fileID: 5412913367954614500}
   lockImg: {fileID: 2217693316771920399}
 --- !u!61 &235286918404421157

@@ -115,6 +115,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scanlines: {fileID: 1139262196262538601}
+  glitchedMaterial: {fileID: 2100000, guid: 1515926b7fdaa064784b3d7d32762044, type: 2}
+  activatedCircuitTile: {fileID: 11400000, guid: bed5c8d141c062f48a450ed1c5803cb2, type: 2}
+  recordForShorts: 0
 --- !u!1 &1139262196262538601
 GameObject:
   m_ObjectHideFlags: 0

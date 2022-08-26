@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Configuration")] 
     public Material glitchedMaterial;
+
+    public TileBase activatedCircuitTile;
     
     public static GameManager instance;
 

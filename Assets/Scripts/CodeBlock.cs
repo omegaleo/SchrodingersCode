@@ -20,7 +20,32 @@ public class CodeBlock : MonoBehaviour
     public Image lockImg;
 
     private Image _img;
+    private CodeEval _eval;
     
+    public CodeBlock()
+    {
+    }
+
+    public void SetEval(CodeEval eval)
+    {
+        _eval = eval;
+    }
+
+    public void RemoveFromEval()
+    {
+        if (_eval != null)
+        {
+            _eval.RemoveBlock(this.gameObject);
+            _eval = null;
+        }
+    }
+    
+    public CodeBlock(CodeBlockType type, string value)
+    {
+        this.type = type;
+        this.value = value;
+    }
+
     private void Start()
     {
         SetText();
