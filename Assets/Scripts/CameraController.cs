@@ -36,7 +36,10 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, targetPosition, speed * Time.deltaTime);
+        if (!GameManager.instance.recordForShorts)
+        {
+            transform.position = Vector3.Lerp(transform.position, targetPosition, speed * Time.deltaTime);
+        }
     }
 
     public void SetPosition(Vector2 position)

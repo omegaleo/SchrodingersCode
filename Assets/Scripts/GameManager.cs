@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _canvas = GetComponent<Canvas>();
-
+        
         if (PlayerPrefs.HasKey("ScanLines"))
         {
             var scanLinesActive = PlayerPrefs.GetString("ScanLines");
