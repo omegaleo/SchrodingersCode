@@ -40,7 +40,7 @@ public class CodeEval : MonoBehaviour
 
     private void HandleError()
     {
-        
+        SFXManager.instance.PlaySound(SFXType.Error);
     }
 
     // public because of tests
@@ -57,6 +57,7 @@ public class CodeEval : MonoBehaviour
         if (IterateExpression(isMath) && doors != null)
         {
             ActivateCircuits();
+            SFXManager.instance.PlaySound(SFXType.DoorOpen);
             foreach (Door door in doors)
             {
                 StartCoroutine(door.OpenDoor());
@@ -125,7 +126,7 @@ public class CodeEval : MonoBehaviour
                     else
                     {
                         nextCodeBlock.ToggleGlitched();
-
+                        SFXManager.instance.PlaySound(SFXType.Glitch);
                         if (onGlitch != null)
                         {
                             onGlitch.Invoke();

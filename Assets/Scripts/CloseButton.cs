@@ -42,12 +42,14 @@ public class CloseButton : Button, IMouseCaptureEvent
     public void CloseTrophies()
     {
         _text.color = colors.normalColor;
+        SFXManager.instance.PlaySound(SFXType.ButtonClick);
         ScreenHandler.instance.Trophies(false);
     }
     
     public void CloseOptions()
     {
         _text.color = colors.normalColor;
+        SFXManager.instance.PlaySound(SFXType.ButtonClick);
         ScreenHandler.instance.Options(false);
     }
 }

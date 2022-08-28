@@ -43,21 +43,25 @@ public class TitleScreenButton : Button, IMouseCaptureEvent
 
     public void StartGame()
     {
+        SFXManager.instance.PlaySound(SFXType.ButtonClick);
         SceneManager.LoadScene(1);
     }
 
     public void Trophies()
     {
+        SFXManager.instance.PlaySound(SFXType.ButtonClick);
         ScreenHandler.instance.Trophies();
     }
 
     public void Options()
     {
+        SFXManager.instance.PlaySound(SFXType.ButtonClick);
         ScreenHandler.instance.Options();
     }
 
     public void ExitGame()
     {
+        SFXManager.instance.PlaySound(SFXType.ButtonClick);
         Application.Quit();
     }
 }

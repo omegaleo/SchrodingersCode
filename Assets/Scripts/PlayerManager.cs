@@ -151,6 +151,7 @@ public class PlayerManager : MonoBehaviour
                     var anchor = anchors.FirstOrDefault(x => x.direction == LookingDirection.Up);
                     _holdingBox.transform.position = new Vector3(0f, anchor.offset.y, 0f);
                     _holdingBox.GetComponent<BoxCollider2D>().enabled = false;
+                    SFXManager.instance.PlaySound(SFXType.Pickup);
                 }
                 else
                 {
@@ -164,12 +165,14 @@ public class PlayerManager : MonoBehaviour
                     _holdingBox.transform.SetParent(ground);
                     _holdingBox.GetComponent<BoxCollider2D>().enabled = true;
                     _holdingBox = null;
+                    SFXManager.instance.PlaySound(SFXType.Drop);
                 }
             }
 
             if (_trophy != null && !_trophy.IsClaimed())
             {
                 _trophy.Claim();
+                SFXManager.instance.PlaySound(SFXType.Trophy);
                 _trophy = null;
             }
         }

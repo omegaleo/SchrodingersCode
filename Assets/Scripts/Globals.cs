@@ -32,6 +32,17 @@ public enum OptionsInputType
     SFX
 }
 
+public enum SFXType
+{
+    ButtonClick,
+    Glitch,
+    Pickup,
+    Drop,
+    Trophy,
+    DoorOpen,
+    Error
+}
+
 [Serializable]
 public class DirectionPlacementAnchors
 {
@@ -69,4 +80,11 @@ public class BlockTileAssociation
             codeBlock.position = tilemap.CellToWorld(new Vector3Int(tilePos.x, tilePos.y, 0)) + new Vector3(0.5f, 0.5f, 0);
         }
     }
+}
+
+[Serializable]
+public class AudioClipAssociation
+{
+    public AudioClip clip;
+    public SFXType type;
 }
