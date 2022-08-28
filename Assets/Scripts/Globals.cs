@@ -29,7 +29,8 @@ public enum OptionsInputType
 {
     ScanLines,
     Music,
-    SFX
+    SFX,
+    FullScreen
 }
 
 public enum SFXType

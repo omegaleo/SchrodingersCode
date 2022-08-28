@@ -9,28 +9,17 @@ public class SFXManager : MonoBehaviour
     [Header("Configuration")] 
     [SerializeField] private List<AudioClipAssociation> clips = new List<AudioClipAssociation>();
 
-    [Range(0f,1f)]
-    [SerializeField] private float volume = 0.5f;
+    public float Volume => PlayerPrefs.HasKey(_prefIdentifier) ? PlayerPrefs.GetFloat(_prefIdentifier) : 0.5f;
 
     public static SFXManager instance;
 
+    private readonly string _prefIdentifier = "SfxVolume";
+    
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
-        }
-    }
-
-    private void Start()
-    {
-        if (PlayerPrefs.HasKey("SfxVolume"))
-        {
-            var volumeString = PlayerPrefs.GetString("SfxVolume");
-            if (float.TryParse(volumeString, out var value))
-            {
-                volume = value;
-            }
         }
     }
 
@@ -41,7 +30,7 @@ public class SFXManager : MonoBehaviour
         if (clip != null)
         {
             var audioSource = gameObject.AddComponent<AudioSource>();
-            audioSource.volume = volume;
+            audioSource.volume = Volume;
             audioSource.clip = clip;
             audioSource.priority = 256;
             audioSource.Play();
@@ -49,13 +38,19 @@ public class SFXManager : MonoBehaviour
         }
     }
 
+    public void SetVolume(float volume)
+    {
+        var normalizedVolume = Mathf.Clamp01(volume);
+        PlayerPrefs.SetFloat(_prefIdentifier, normalizedVolume);
+    }
+    
     private IEnumerator DestroyOnFinish(AudioSource source)
     {
-        while (!source.isPlaying)
+        while (source.isPlaying)
         {
             yield return new WaitForSeconds(0.1f);
         }
-        yield return new WaitForSeconds(1f);
+
         Destroy(source);
     }
 }

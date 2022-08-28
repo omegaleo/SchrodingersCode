@@ -57,6 +57,15 @@ public class GameManager : MonoBehaviour
                 _scanlines.SetActive(active);
             }
         }
+        
+        if (PlayerPrefs.HasKey("Fullscreen"))
+        {
+            var fullscreenActive = PlayerPrefs.GetString("Fullscreen");
+            if (bool.TryParse(fullscreenActive, out var active))
+            {
+                Screen.fullScreen = active;
+            }
+        }
 
         if (_canvas.worldCamera == null)
         {

@@ -16,6 +16,15 @@ public class OptionsHandling : MonoBehaviour
             case OptionsInputType.ScanLines:
                 GetComponent<Toggle>().isOn = GameManager.instance.ScanLinesOn;
                 break;
+            case OptionsInputType.Music:
+                GetComponent<Slider>().value = MusicManager.instance.Volume;
+                break;
+            case OptionsInputType.SFX:
+                GetComponent<Slider>().value = SFXManager.instance.Volume;
+                break;
+            case OptionsInputType.FullScreen:
+                GetComponent<Toggle>().isOn = Screen.fullScreen;
+                break;
         }
     }
 
@@ -26,6 +35,18 @@ public class OptionsHandling : MonoBehaviour
             case OptionsInputType.ScanLines:
                 GameManager.instance.ToggleScanLines(GetComponent<Toggle>().isOn);
                 break;
+            case OptionsInputType.Music:
+                MusicManager.instance.SetVolume(GetComponent<Slider>().value);
+                break;
+            case OptionsInputType.SFX:
+                SFXManager.instance.SetVolume(GetComponent<Slider>().value);
+                break;
+            case OptionsInputType.FullScreen:
+                var value = GetComponent<Toggle>().isOn;
+                Screen.fullScreen = value;
+                PlayerPrefs.SetString("Fullscreen", value.ToString());
+                break;
         }
+        SFXManager.instance.PlaySound(SFXType.ButtonClick);
     }
 }
