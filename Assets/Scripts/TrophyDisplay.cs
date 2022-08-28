@@ -13,6 +13,9 @@ public class TrophyDisplay : MonoBehaviour
     [SerializeField] private string displayName;
 
     [SerializeField] private Color disabledColor;
+
+    [SerializeField] private Sprite hiddenSprite;
+    [SerializeField] private Sprite showSprite;
     
     [Header("UI")] 
     [SerializeField] private TMP_Text text;
@@ -39,11 +42,13 @@ public class TrophyDisplay : MonoBehaviour
         {
             text.text = displayName;
             img.color = new Color(1f, 1f, 1f, 1f);
+            img.sprite = showSprite;
         }
         else
         {
             text.text = "???";
             img.color = disabledColor;
+            img.sprite = hiddenSprite;
         }
     }
 }
