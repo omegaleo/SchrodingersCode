@@ -132,6 +132,12 @@ public class PlayerManager : MonoBehaviour
     {
         if (ctx.performed)
         {
+            if (GameManager.instance.TutorialOpen)
+            {
+                PlayerPrefs.SetString("Tutorial", true.ToString());
+                GameManager.instance.CloseTutorial();
+            }
+            
             if (CanPickupBlock() || CanDropBlock())
             {
                 _holding = !_holding;

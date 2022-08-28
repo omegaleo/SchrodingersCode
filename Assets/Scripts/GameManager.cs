@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 
     [Header("UI")] 
     [SerializeField] private GameObject _scanlines;
+    [SerializeField] private GameObject tutorial;
 
     [Header("Configuration")] 
     public Material glitchedMaterial;
@@ -37,6 +38,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public bool TutorialOpen => tutorial.activeSelf;
+
+    public void CloseTutorial()
+    {
+        tutorial.SetActive(false);
+    }
+    
     private void Start()
     {
         _canvas = GetComponent<Canvas>();
@@ -60,6 +68,14 @@ public class GameManager : MonoBehaviour
 
     private void ActiveSceneChanged(Scene arg0, Scene arg1)
     {
+        if (arg1.buildIndex == 1)
+        {
+            if (!PlayerPrefs.HasKey("Tutorial"))
+            {
+                tutorial.SetActive(true);
+            }
+        }
+        
         if (_canvas.worldCamera == null)
         {
             _canvas.worldCamera = Camera.main;
