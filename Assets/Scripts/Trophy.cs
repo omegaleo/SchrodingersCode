@@ -16,8 +16,17 @@ public class Trophy : MonoBehaviour
     
     private int _frame = 0;
     private Image _img;
-    
-    private bool IsClaimed()
+
+    public void Claim()
+    {
+        PlayerPrefs.SetString(prefName, true.ToString());
+        
+        // Trigger Animation
+        
+        // Show Message
+    }
+
+    public bool IsClaimed()
     {
         if (PlayerPrefs.HasKey(prefName))
         {

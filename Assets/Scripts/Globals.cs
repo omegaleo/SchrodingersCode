@@ -25,6 +25,13 @@ public enum EvalCheck
     CheckForFalse
 }
 
+public enum OptionsInputType
+{
+    ScanLines,
+    Music,
+    SFX
+}
+
 [Serializable]
 public class DirectionPlacementAnchors
 {

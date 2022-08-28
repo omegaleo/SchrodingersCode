@@ -32,6 +32,11 @@ public class CameraController : MonoBehaviour
         {
             camera.enabled = !isShortsCamera;
         }
+
+        if (camera.enabled)
+        {
+            GameManager.instance.SetCamera(camera);
+        }
     }
 
     private void Update()

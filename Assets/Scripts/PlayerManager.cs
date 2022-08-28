@@ -31,12 +31,18 @@ public class PlayerManager : MonoBehaviour
     private GameObject _colliding;
     private GameObject _holdingBox;
     private LookingDirection _direction;
+    private Trophy _trophy;
 
     private void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.CompareTag("CodeBlock"))
         {
             _colliding = col.gameObject;
+        }
+
+        if (col.gameObject.CompareTag("Trophy"))
+        {
+            _trophy = col.gameObject.GetComponent<Trophy>();
         }
     }
 
@@ -45,6 +51,11 @@ public class PlayerManager : MonoBehaviour
         if (other.gameObject.CompareTag("CodeBlock"))
         {
             _colliding = null;
+        }
+        
+        if (other.gameObject.CompareTag("Trophy"))
+        {
+            _trophy = null;
         }
     }
 
@@ -119,32 +130,41 @@ public class PlayerManager : MonoBehaviour
 
     public void InteractDown(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed && (CanPickupBlock() || CanDropBlock()))
+        if (ctx.performed)
         {
-            _holding = !_holding;
-            _animator.SetBool(Box, _holding);
-
-            if (_holding)
+            if (CanPickupBlock() || CanDropBlock())
             {
-                _holdingBox = _colliding;
-                _holdingBox.transform.SetParent(boxHolder);
-                _holdingBox.GetComponent<CodeBlock>().RemoveFromEval();
-                var anchor = anchors.FirstOrDefault(x => x.direction == LookingDirection.Up);
-                _holdingBox.transform.position = new Vector3(0f, anchor.offset.y, 0f);
-                _holdingBox.GetComponent<BoxCollider2D>().enabled = false;
+                _holding = !_holding;
+                _animator.SetBool(Box, _holding);
+
+                if (_holding)
+                {
+                    _holdingBox = _colliding;
+                    _holdingBox.transform.SetParent(boxHolder);
+                    _holdingBox.GetComponent<CodeBlock>().RemoveFromEval();
+                    var anchor = anchors.FirstOrDefault(x => x.direction == LookingDirection.Up);
+                    _holdingBox.transform.position = new Vector3(0f, anchor.offset.y, 0f);
+                    _holdingBox.GetComponent<BoxCollider2D>().enabled = false;
+                }
+                else
+                {
+                    var position = transform.localPosition;
+                    var placePosition = Vector3.zero;
+                    var anchor = anchors.FirstOrDefault(x => x.direction == _direction);
+                    placePosition = anchor.offset;
+
+                    _holdingBox.transform.localPosition = new Vector3(position.x + placePosition.x, 
+                        position.y + placePosition.y);
+                    _holdingBox.transform.SetParent(ground);
+                    _holdingBox.GetComponent<BoxCollider2D>().enabled = true;
+                    _holdingBox = null;
+                }
             }
-            else
-            {
-                var position = transform.localPosition;
-                var placePosition = Vector3.zero;
-                var anchor = anchors.FirstOrDefault(x => x.direction == _direction);
-                placePosition = anchor.offset;
 
-                _holdingBox.transform.localPosition = new Vector3(position.x + placePosition.x, 
-                    position.y + placePosition.y);
-                _holdingBox.transform.SetParent(ground);
-                _holdingBox.GetComponent<BoxCollider2D>().enabled = true;
-                _holdingBox = null;
+            if (_trophy != null && !_trophy.IsClaimed())
+            {
+                _trophy.Claim();
+                _trophy = null;
             }
         }
     }
