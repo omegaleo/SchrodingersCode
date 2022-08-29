@@ -846,7 +846,19 @@ MonoBehaviour:
     m_ActionId: b976b9b0-a916-4fed-83ac-169dd7db323e
     m_ActionName: Player/Interact[/Keyboard/e,/Keyboard/z]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 319265055}
+        m_TargetAssemblyTypeName: PlayerManager, Scripts
+        m_MethodName: MenuDown
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 787b13f9-b8f7-4881-af2d-bbfd48b2104b
     m_ActionName: Player/Menu[/Keyboard/escape,/Keyboard/enter]
   m_NeverAutoSwitchControlSchemes: 0
@@ -3926,6 +3938,8 @@ MonoBehaviour:
   leftDoor: {x: -1, y: 6, z: 0}
   rightDoor: {x: 0, y: 6, z: 0}
   tiles:
+  - leftTile: {fileID: 11400000, guid: 21c1747cbbe63764c94cd322b3fc8932, type: 2}
+    rightTile: {fileID: 11400000, guid: 890914a8c63bb534f82a5b13c001849d, type: 2}
   - leftTile: {fileID: 11400000, guid: 2eeeacbb95e729341a008b15ab816939, type: 2}
     rightTile: {fileID: 11400000, guid: d6978088e1d41dd4a9b9167c7e91c1eb, type: 2}
   - leftTile: {fileID: 11400000, guid: c0d1e74a9715d6343a02a55ded6ebd4f, type: 2}
@@ -12066,6 +12080,8 @@ MonoBehaviour:
   leftDoor: {x: -1, y: 5, z: 0}
   rightDoor: {x: 0, y: 5, z: 0}
   tiles:
+  - leftTile: {fileID: 11400000, guid: 21c1747cbbe63764c94cd322b3fc8932, type: 2}
+    rightTile: {fileID: 11400000, guid: 890914a8c63bb534f82a5b13c001849d, type: 2}
   - leftTile: {fileID: 11400000, guid: 2eeeacbb95e729341a008b15ab816939, type: 2}
     rightTile: {fileID: 11400000, guid: d6978088e1d41dd4a9b9167c7e91c1eb, type: 2}
   - leftTile: {fileID: 11400000, guid: c0d1e74a9715d6343a02a55ded6ebd4f, type: 2}
@@ -12926,8 +12942,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

@@ -245,6 +245,7 @@ MonoBehaviour:
   tutorial: {fileID: 2544608540943718331}
   glitchedMaterial: {fileID: 2100000, guid: 1515926b7fdaa064784b3d7d32762044, type: 2}
   activatedCircuitTile: {fileID: 11400000, guid: bed5c8d141c062f48a450ed1c5803cb2, type: 2}
+  deActivatedCircuitTile: {fileID: 11400000, guid: 8e8e3342164f8184cbd826aed6acd78f, type: 2}
   wallTile: {fileID: 11400000, guid: 65c2ae4b379a0dd4e9c59a4adf840e5f, type: 2}
   groundTile: {fileID: 11400000, guid: 61af291d69a8c754db5f0e8da21cd082, type: 2}
   recordForShorts: 0
@@ -631,7 +632,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "<size=48><b><color=#27b391>Basic Controls</color></b></size>\n\n<size=40>\u2190\u2191\u2192\u2193</size>
-    | WASD - Movement\nE | Z - Interact\n\n\n\n<align=center><Press E or Z to continue></align>"
+    | WASD - Movement\nE | Z - Interact\nESC | Enter - Return to Titlescreen\n\n\n<align=center><Press
+    E or Z to continue></align>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8b46689acef31b84fac40aaf806da8a3, type: 2}
   m_sharedMaterial: {fileID: 3847706334648268795, guid: 8b46689acef31b84fac40aaf806da8a3, type: 2}

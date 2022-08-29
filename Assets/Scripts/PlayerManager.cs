@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -128,6 +129,12 @@ public class PlayerManager : MonoBehaviour
         _movement = value.ReadValue<Vector2>();
     }
 
+    public void MenuDown(InputAction.CallbackContext ctx)
+    {
+        // Return to title screen for now
+        SceneManager.LoadScene(0);
+    }
+    
     public void InteractDown(InputAction.CallbackContext ctx)
     {
         if (ctx.performed)

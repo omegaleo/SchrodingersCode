@@ -58,10 +58,7 @@ public class CodeEval : MonoBehaviour
         {
             ActivateCircuits();
             SFXManager.instance.PlaySound(SFXType.DoorOpen);
-            foreach (Door door in doors)
-            {
-                StartCoroutine(door.OpenDoor());
-            }
+            doors.ForEach((door) => StartCoroutine(door.OpenDoor()));
         }
         else if(!isMath)
         {
@@ -76,6 +73,17 @@ public class CodeEval : MonoBehaviour
             foreach (var pos in circuitTilemap.GetTilePositions())
             {
                 circuitTilemap.SetTile(pos, GameManager.instance.activatedCircuitTile);
+            }
+        }
+    }
+    
+    private void DeActivateCircuits()
+    {
+        if (circuitTilemap != null)
+        {
+            foreach (var pos in circuitTilemap.GetTilePositions())
+            {
+                circuitTilemap.SetTile(pos, GameManager.instance.deActivatedCircuitTile);
             }
         }
     }
@@ -217,6 +225,13 @@ public class CodeEval : MonoBehaviour
         if (blockTiles.Any(x => x.codeBlock != null && x.codeBlock.gameObject == block))
         {
             blockTiles.FirstOrDefault(x => x.codeBlock != null && x.codeBlock.gameObject == block)!.codeBlock = null;
+
+            if (doors != null && doors.Any())
+            {
+                SFXManager.instance.PlaySound(SFXType.DoorOpen);
+                DeActivateCircuits();
+                doors.ForEach((door) => StartCoroutine(door.CloseDoor()));
+            }
         }
     }
 }
