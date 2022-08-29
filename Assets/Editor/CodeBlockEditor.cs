@@ -53,6 +53,7 @@ public class CodeBlockEditor : Editor
                 break;
         }
         block.locked = EditorGUILayout.Toggle("Locked", block.locked);
+        block.glitched = EditorGUILayout.Toggle("Glitched", block.glitched);
         
         EditorGUILayout.LabelField("UI");
         block.text = (TMP_Text)EditorGUILayout.ObjectField("TMP_Text", block.text, typeof(TMP_Text));

@@ -2927,10 +2927,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   identifier: lvl2
-  displayName: Jelly Filled Donut
+  displayName: Kitty
   disabledColor: {r: 0.34117648, g: 0.34117648, b: 0.34117648, a: 1}
-  hiddenSprite: {fileID: -1233597020, guid: 5f300f34db0219f408d0a0721f774d43, type: 3}
-  showSprite: {fileID: 0}
+  hiddenSprite: {fileID: -1194515615, guid: 5f300f34db0219f408d0a0721f774d43, type: 3}
+  showSprite: {fileID: 1928154653, guid: 5f300f34db0219f408d0a0721f774d43, type: 3}
   text: {fileID: 315170314}
   img: {fileID: 1985629344}
 --- !u!114 &754638220
