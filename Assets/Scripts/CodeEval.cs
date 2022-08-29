@@ -61,7 +61,7 @@ public class CodeEval : MonoBehaviour
         {
             ActivateCircuits();
 
-            if (doors != null)
+            if (doors != null && doors.Any())
             {
                 SFXManager.instance.PlaySound(SFXType.DoorOpen);
                 doors.ForEach((door) => StartCoroutine(door.OpenDoor()));

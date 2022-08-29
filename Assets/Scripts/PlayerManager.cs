@@ -126,6 +126,12 @@ public class PlayerManager : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext value)
     {
+        if (MessageQueueHandler.instance.show || GameManager.instance.TutorialOpen)
+        {
+            _movement = Vector2.zero;
+            return;
+        }
+        
         _movement = value.ReadValue<Vector2>();
     }
 

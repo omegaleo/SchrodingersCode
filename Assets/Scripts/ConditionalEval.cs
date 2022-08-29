@@ -44,13 +44,13 @@ public class ConditionalEval : MonoBehaviour
             {
                 ActivateCircuits();
                 SFXManager.instance.PlaySound(SFXType.DoorOpen);
-                doors.ForEach(door => door.OpenDoor());
+                doors.ForEach((door) => StartCoroutine(door.OpenDoor()));
             }
             else
             {
                 DeActivateCircuits();
                 SFXManager.instance.PlaySound(SFXType.DoorOpen);
-                doors.ForEach(door => door.CloseDoor());
+                doors.ForEach((door) => StartCoroutine(door.CloseDoor()));
             }
         }
 
