@@ -1,0 +1,136 @@
+name: Build
+
+on:
+  release:
+    types: [created]
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  RELEASE_URL: ''
+
+jobs:
+  get-release:
+    name: Get Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Get release
+        id: get_release
+        uses: bruceadams/get-release@v1.2.3
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+    outputs:
+      upload_url: ${{ steps.get_release.outputs.upload_url }}
+  deploy-to-itch:
+    name: Deploy to Itch ${{ matrix.channel }}
+    needs: [buildAndTestForSomePlatforms]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        channel:
+          - StandaloneWindows64 # Build a Windows 64-bit standalone.
+          - StandaloneLinux64 # Build a Linux 64-bit standalone.
+          - WebGL # WebGL. Disabled for now due to issues with URP and building from here
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: Build (${{ matrix.channel }})
+      - name: Archive Content
+        uses: thedoctor0/zip-release@master
+        with:
+          filename: ${{ matrix.channel }}.zip
+      - uses: KikimoraGames/itch-publish@v0.0.3
+        with:
+          butlerApiKey: ${{secrets.BUTLER_API_KEY}}
+          gameData: ${{ matrix.channel }}.zip
+          itchUsername: ${{secrets.ITCH_USERNAME}}
+          itchGameId: ${{ secrets.ITCH_GAME_ID }}
+          buildChannel: ${{ matrix.channel }}
+          buildNumber: ${{github.ref_name}}
+  upload-release:
+    name: Upload build files to the release
+    runs-on: ubuntu-latest
+    needs: [get-release, buildAndTestForSomePlatforms]
+    strategy:
+      fail-fast: false
+      matrix:
+        projectPath:
+          - ./
+        targetPlatform:
+          - StandaloneWindows64 # Build a Windows 64-bit standalone.
+          - StandaloneLinux64 # Build a Linux 64-bit standalone.
+          - WebGL # WebGL. Disabled for now due to issues with URP and building from here
+          #- Android # Android APK
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: Build (${{ matrix.targetPlatform }})
+      - name: Archive Content
+        uses: thedoctor0/zip-release@master
+        with:
+          filename: ${{ matrix.targetPlatform }}.zip
+      - name: Upload assets to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ARTIFACT_TOKEN }}
+        with:
+          upload_url: ${{ needs.get-release.outputs.upload_url }}
+          asset_path: ${{ matrix.targetPlatform }}.zip
+          asset_name: ${{ matrix.targetPlatform }}.zip
+          asset_content_type: application/zip
+  buildAndTestForSomePlatforms:
+    name: Build for ${{ matrix.targetPlatform }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        projectPath:
+          - ./
+        targetPlatform:
+          - StandaloneWindows64 # Build a Windows 64-bit standalone.
+          - StandaloneLinux64 # Build a Linux 64-bit standalone.
+          - WebGL # WebGL. Disabled for now due to issues with URP and building from here
+          #- Android # Android APK
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create LFS file list
+        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+
+      - name: Restore LFS cache
+        uses: actions/cache@v2
+        id: lfs-cache
+        with:
+          path: .git/lfs
+          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+
+      - name: Git LFS Pull
+        run: |
+          git lfs pull
+          git add .
+          git reset --hard
+
+      - name: Restore Library cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ matrix.projectPath }}/Library
+          key: Library-buildAndTest-${{ matrix.projectPath }}-buildAndTest-${{ matrix.targetPlatform }}
+          restore-keys: |
+            Library-${{ matrix.projectPath }}-buildAndTest-
+            Library-${{ matrix.projectPath }}-
+      - name: Build project
+        uses: game-ci/unity-builder@v2
+        with:
+          unityVersion: ${{ secrets.UNITY_VERSION }}
+          targetPlatform: ${{ matrix.targetPlatform }}
+          allowDirtyBuild: true
+          versioning: Tag
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Build (${{ matrix.targetPlatform }})
+          path: build/${{ matrix.targetPlatform }}
