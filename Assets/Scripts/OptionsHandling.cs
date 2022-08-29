@@ -37,7 +37,7 @@ public class OptionsHandling : MonoBehaviour
                 break;
             case OptionsInputType.Music:
                 MusicManager.instance.SetVolume(GetComponent<Slider>().value);
-                break;
+                return; // Skip button sfx for this one
             case OptionsInputType.SFX:
                 SFXManager.instance.SetVolume(GetComponent<Slider>().value);
                 break;
