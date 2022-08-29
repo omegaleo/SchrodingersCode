@@ -93,7 +93,7 @@ jobs:
           - StandaloneWindows64 # Build a Windows 64-bit standalone.
           - StandaloneLinux64 # Build a Linux 64-bit standalone.
           - WebGL # WebGL. Disabled for now due to issues with URP and building from here
-          - Android # Android APK
+          #- Android # Android APK
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -125,7 +125,7 @@ jobs:
       - name: Build project
         uses: game-ci/unity-builder@v2
         with:
-          unityVersion: 2021.3.0f1
+          unityVersion: ${{ secrets.UNITY_VERSION }}
           targetPlatform: ${{ matrix.targetPlatform }}
           allowDirtyBuild: true
           versioning: Tag
