@@ -43,14 +43,6 @@ public class MessageQueueHandler : MonoBehaviour
         }
     }
 
-    public void InteractDown(InputAction.CallbackContext ctx)
-    {
-        if (ctx.performed && show)
-        {
-            NextMessage();
-        }
-    }
-
     public void NextMessage()
     {
         messages.RemoveAt(0);

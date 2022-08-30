@@ -150,7 +150,12 @@ public class PlayerManager : MonoBehaviour
                 PlayerPrefs.SetString("Tutorial", true.ToString());
                 GameManager.instance.CloseTutorial();
             }
-            
+
+            if (MessageQueueHandler.instance.show)
+            {
+                MessageQueueHandler.instance.NextMessage();
+            }
+
             if (CanPickupBlock() || CanDropBlock())
             {
                 _holding = !_holding;
