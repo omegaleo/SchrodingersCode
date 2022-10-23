@@ -51,10 +51,11 @@ public class CodeEval : MonoBehaviour
         var isMath = blockTiles.Any(x => x.codeBlock.GetComponent<CodeBlock>().type == CodeBlockType.Operator) && 
                      blockTiles.All(x => x.codeBlock.GetComponent<CodeBlock>().type != CodeBlockType.Condition);
 
-        if (blockTiles.Any(x => x.codeBlock.GetComponent<CodeBlock>().glitched))
+        // Disabled to prevent soft locks
+        /*if (blockTiles.Any(x => x.codeBlock.GetComponent<CodeBlock>().glitched))
         {
             return;
-        }
+        }*/
         
         if (IterateExpression(isMath))
         {
@@ -119,7 +120,7 @@ public class CodeEval : MonoBehaviour
                 {
                     var nextBlock = blockTiles[i + 1];
                     var nextCodeBlock = nextBlock.codeBlock.GetComponent<CodeBlock>();
-
+                    
                     if (nextCodeBlock.type == CodeBlockType.Blank)
                     {
                         if (isMath)
@@ -136,11 +137,40 @@ public class CodeEval : MonoBehaviour
                     }
                     else
                     {
-                        nextCodeBlock.ToggleGlitched();
-                        SFXManager.instance.PlaySound(SFXType.Glitch);
-                        if (onGlitch != null)
+                        if (i - 1 < 0)
                         {
-                            onGlitch.Invoke();
+                            ToggleGlitchedBlock(nextCodeBlock);
+                        }
+                        else
+                        {
+                            var previousBlock = blockTiles[i - 1];
+                            var previousCodeBlock = previousBlock.codeBlock.GetComponent<CodeBlock>();
+
+                            for (var j = i + 1; j < blockTiles.Count; j++)
+                            {
+                                var subBlock = blockTiles[j];
+                                var subCodeBlock = subBlock.codeBlock.GetComponent<CodeBlock>();
+                                currentValue += subCodeBlock.value;
+                            }
+                            
+                            if (previousCodeBlock.type == CodeBlockType.Blank)
+                            {
+                                if (isMath)
+                                {
+                                    previousCodeBlock.value = new DataTable().Compute(currentValue, null).ToString();
+                                }
+                                else
+                                {
+                                    previousCodeBlock.value = EvaluateExpression(currentValue).ToString();
+                                }
+
+                                previousCodeBlock.SetText();
+                                break;
+                            }
+                            else
+                            {
+                                ToggleGlitchedBlock(previousCodeBlock);
+                            }
                         }
                     }
                 }
@@ -175,15 +205,15 @@ public class CodeEval : MonoBehaviour
         return value;
     }
 
-    private void ToggleGlitchedBlock()
+    private void ToggleGlitchedBlock(CodeBlock block = null)
     {
-        var glitchBlock = blockTiles
+        var glitchedBlock = block ?? blockTiles
             .Select(x => x.codeBlock.GetComponent<CodeBlock>())
             .FirstOrDefault(x => x.type == CodeBlockType.Int);
-
-        if (glitchBlock == null) return;
         
-        glitchBlock.ToggleGlitched();
+        if (glitchedBlock == null) return;
+        
+        glitchedBlock.ToggleGlitched();
         SFXManager.instance.PlaySound(SFXType.Glitch);
 
         onGlitch?.Invoke();
