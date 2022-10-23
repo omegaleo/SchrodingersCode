@@ -14,14 +14,16 @@ public class CodeBlock : MonoBehaviour
 
     public bool locked = false;
     public bool glitched = false; // Used to determine if a block is glitched and can be used for secrets
-    
+    private Vector3 _initialPosition;
+    private CodeEval _eval;
+
     [Header("UI")] 
     public TMP_Text text;
+
     public Image lockImg;
 
     private Image _img;
-    private CodeEval _eval;
-    
+
     public CodeBlock()
     {
     }
@@ -50,6 +52,7 @@ public class CodeBlock : MonoBehaviour
     {
         SetText();
         _img = GetComponent<Image>();
+        _initialPosition = transform.localPosition;
     }
 
     public void SetText()
@@ -77,6 +80,14 @@ public class CodeBlock : MonoBehaviour
         else
         {
             _img.material = null;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.CompareTag("Wall"))
+        {
+            transform.localPosition = _initialPosition;
         }
     }
 }
