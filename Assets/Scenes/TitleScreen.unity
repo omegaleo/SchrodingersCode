@@ -6595,6 +6595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa70b19bc1d1c2248ad39e60612978d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  titleScreen: {fileID: 73119552}
   trophies: {fileID: 540091841}
   options: {fileID: 1164690894}
 --- !u!1 &1718118196
