@@ -22,21 +22,45 @@ public class CodeEval : MonoBehaviour
     protected virtual void OnTriggerEnter2D(Collider2D col)
     {
         if (!col.gameObject.CompareTag("CodeBlock")) return;
-        
-        Vector3Int lPos = _tilemap.WorldToCell(col.transform.position);
-        var blockTile = blockTiles.FirstOrDefault(x => x.tilePos == lPos);
-            
-        if (blockTile != null)
-        {
-            blockTile.codeBlock = col.transform;
-            blockTile.CenterBlockOnTile(_tilemap);
-            col.GetComponent<CodeBlock>().SetEval(this);
-        }
 
-        if (blockTiles.All(x => x.codeBlock != null))
+        Vector3Int lPos = _tilemap.WorldToCell(col.transform.position);
+        
+        if (col.gameObject.GetComponent<CodeBlock>().locked)
         {
-            EvaluateCode();
-            canEvaluate = true;
+            var blockTile = blockTiles.FirstOrDefault(x => x.tilePos == lPos);
+
+            if (blockTile != null)
+            {
+                blockTile.codeBlock = col.transform;
+                blockTile.CenterBlockOnTile(_tilemap);
+                col.GetComponent<CodeBlock>().SetEval(this);
+            }
+        }
+        else
+        {
+            var blockTile = blockTiles.FirstOrDefault(x => x.tilePos == lPos && (x.codeBlock != col.transform && x.codeBlock == null));
+
+            if (blockTile == null)
+            {
+                blockTile = blockTiles.FirstOrDefault(x => x.codeBlock == null);
+            }
+        
+            if (blockTile != null)
+            {
+                blockTile.codeBlock = col.transform;
+                blockTile.CenterBlockOnTile(_tilemap);
+                col.GetComponent<CodeBlock>().SetEval(this);
+            }
+            else
+            {
+                PlayerManager.instance.HoldBlock(col.gameObject);
+            }
+
+            if (blockTiles.All(x => x.codeBlock != null))
+            {
+                EvaluateCode();
+                canEvaluate = true;
+            }
         }
     }
 
