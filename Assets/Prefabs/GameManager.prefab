@@ -154,6 +154,7 @@ GameObject:
   - component: {fileID: 1139262195193229022}
   - component: {fileID: 1139262195193229021}
   - component: {fileID: 4637355397795551509}
+  - component: {fileID: 7396204918759263162}
   m_Layer: 5
   m_Name: GameManager
   m_TagString: Untagged
@@ -250,6 +251,18 @@ MonoBehaviour:
   wallTile: {fileID: 11400000, guid: 65c2ae4b379a0dd4e9c59a4adf840e5f, type: 2}
   groundTile: {fileID: 11400000, guid: 61af291d69a8c754db5f0e8da21cd082, type: 2}
   recordForShorts: 0
+--- !u!114 &7396204918759263162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1139262195193229019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1043d0119b0b5e48bbd9ca2b8cf8d49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1139262196262538601
 GameObject:
   m_ObjectHideFlags: 0

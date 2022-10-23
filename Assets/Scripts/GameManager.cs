@@ -9,23 +9,45 @@ public class GameManager : MonoBehaviour
 {
     private Canvas _canvas;
 
-    [Header("UI")] 
-    [SerializeField] private GameObject _scanlines;
+    [Header("UI")] [SerializeField] private GameObject _scanlines;
     [SerializeField] private GameObject tutorial;
 
-    [Header("Configuration")] 
-    public Material glitchedMaterial;
+    [Header("Configuration")] public Material glitchedMaterial;
 
     public TileBase activatedCircuitTile;
     public TileBase deActivatedCircuitTile;
     public TileBase wallTile;
     public TileBase groundTile;
-    
+
     public static GameManager instance;
 
-    [Header("Recording Options")] 
+    public bool IsDemo
+    {
+        get
+        {
+#if DEMO
+            return true;
+#else
+            return false;
+#endif
+        }
+    }
+
+    public bool IsBeta
+    {
+        get
+        {
+#if BETA
+            return true;
+#else
+            return false;
+#endif
+        }
+    }
+
+    [Header("Recording Options")]
     public bool recordForShorts; // Will toggle on the Player Camera instead of the current camera
-    
+
     private void Awake()
     {
         if (instance == null)
@@ -45,11 +67,11 @@ public class GameManager : MonoBehaviour
     {
         tutorial.SetActive(false);
     }
-    
+
     private void Start()
     {
         _canvas = GetComponent<Canvas>();
-        
+
         if (PlayerPrefs.HasKey("ScanLines"))
         {
             var scanLinesActive = PlayerPrefs.GetString("ScanLines");
@@ -58,7 +80,7 @@ public class GameManager : MonoBehaviour
                 _scanlines.SetActive(active);
             }
         }
-        
+
         if (PlayerPrefs.HasKey("Fullscreen"))
         {
             var fullscreenActive = PlayerPrefs.GetString("Fullscreen");
@@ -85,7 +107,7 @@ public class GameManager : MonoBehaviour
                 tutorial.SetActive(true);
             }
         }
-        
+
         if (_canvas.worldCamera == null)
         {
             _canvas.worldCamera = Camera.main;
@@ -98,7 +120,7 @@ public class GameManager : MonoBehaviour
     }
 
     public bool ScanLinesOn => _scanlines.activeSelf;
-    
+
     /// <summary>
     /// Called by Editor
     /// </summary>
@@ -108,7 +130,7 @@ public class GameManager : MonoBehaviour
         _scanlines.SetActive(active);
         PlayerPrefs.SetString("ScanLines", active.ToString());
     }
-    
+
     public void ToggleScanLines(bool value)
     {
         _scanlines.SetActive(value);
