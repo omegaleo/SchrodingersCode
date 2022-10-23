@@ -23,9 +23,9 @@ MonoBehaviour:
   itchReleasePublish: 
   itchDemoPublish: 
   itchBetaPublish: 
-  demo: 0
+  demo: 1
   beta: 0
-  itch: 1
+  itch: 0
   steamDeck: 0
   dev: 0
   demoScenes: []
@@ -33,7 +33,7 @@ MonoBehaviour:
   ProjectName: Schrodinger's Code
   CompanyName: OmegaLeo
   CompanyNameForUWP: OmegaLeo
-  BaseBuildNumber: v1.1.0
+  BaseBuildNumber: v1.2.0
   BundleIdentifier: pt.omegaleo.schrodingers-code
   BundleVersionCode: 1
   KeyAliasPassword: 
@@ -44,12 +44,12 @@ MonoBehaviour:
     target: 19
     folder: win
     extension: .exe
-    enabled: 0
+    enabled: 1
   - name: Linux
     target: 24
     folder: linux
     extension: .x86_64
-    enabled: 0
+    enabled: 1
   - name: Android
     target: 13
     folder: android
@@ -64,7 +64,7 @@ MonoBehaviour:
     target: 20
     folder: webgl
     extension: 
-    enabled: 1
+    enabled: 0
   - name: UWP
     target: 21
     folder: uwp

@@ -136,7 +136,7 @@ PlayerSettings:
     16:10: 0
     16:9: 1
     Others: 0
-  bundleVersion: v1.1.0
+  bundleVersion: v1.2.0
   preloadedAssets:
   - {fileID: 11400000, guid: 88e0a5abfee13214ab43ac9a8603b8f5, type: 2}
   metroInputSource: 0
@@ -678,7 +678,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    Standalone: CROSS_PLATFORM_INPUT;DEMO
+    Standalone: CROSS_PLATFORM_INPUT;STEAMWORKS_NET
     WebGL: STEAMWORKS_NET
   additionalCompilerArguments: {}
   platformArchitecture: {}
