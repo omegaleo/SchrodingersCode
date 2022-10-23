@@ -121,18 +121,8 @@ public class CodeEval : MonoBehaviour
                     var nextBlock = blockTiles[i + 1];
                     var nextCodeBlock = nextBlock.codeBlock.GetComponent<CodeBlock>();
                     
-                    if (nextCodeBlock.type == CodeBlockType.Blank)
+                    if (SetValue(isMath, nextCodeBlock, currentValue))
                     {
-                        if (isMath)
-                        {
-                            nextCodeBlock.value = new DataTable().Compute(currentValue, null).ToString();
-                        }
-                        else
-                        {
-                            nextCodeBlock.value = EvaluateExpression(currentValue).ToString();
-                        }
-
-                        nextCodeBlock.SetText();
                         break;
                     }
                     else
@@ -152,24 +142,14 @@ public class CodeEval : MonoBehaviour
                                 var subCodeBlock = subBlock.codeBlock.GetComponent<CodeBlock>();
                                 currentValue += subCodeBlock.value;
                             }
-                            
-                            if (previousCodeBlock.type == CodeBlockType.Blank)
-                            {
-                                if (isMath)
-                                {
-                                    previousCodeBlock.value = new DataTable().Compute(currentValue, null).ToString();
-                                }
-                                else
-                                {
-                                    previousCodeBlock.value = EvaluateExpression(currentValue).ToString();
-                                }
 
-                                previousCodeBlock.SetText();
+                            if (SetValue(isMath, previousCodeBlock, currentValue))
+                            {
                                 break;
                             }
                             else
                             {
-                                ToggleGlitchedBlock(previousCodeBlock);
+                                ToggleGlitchedBlock(codeBlock);
                             }
                         }
                     }
@@ -203,6 +183,28 @@ public class CodeEval : MonoBehaviour
         
         
         return value;
+    }
+
+    private bool SetValue(bool isMath, CodeBlock codeBlock, string value)
+    {
+        if (codeBlock.type == CodeBlockType.Blank)
+        {
+            if (isMath)
+            {
+                codeBlock.value = new DataTable().Compute(value, null).ToString();
+                codeBlock.type = CodeBlockType.Int;
+            }
+            else
+            {
+                codeBlock.value = EvaluateExpression(value).ToString();
+                codeBlock.type = CodeBlockType.Boolean;
+            }
+
+            codeBlock.SetText();
+            return true;
+        }
+
+        return false;
     }
 
     private void ToggleGlitchedBlock(CodeBlock block = null)

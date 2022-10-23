@@ -7,7 +7,8 @@ public enum CodeBlockType
     Int,
     Condition,
     Blank,
-    Operator
+    Operator,
+    Boolean
 }
 
 public enum LookingDirection
