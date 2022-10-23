@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using OmegaLeo.Toolbox.Runtime.Models;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : InstancedBehavior<PlayerManager>
 {
     [SerializeField] private float moveSpeed;
     [SerializeField] private Transform boxHolder;
@@ -163,13 +164,7 @@ public class PlayerManager : MonoBehaviour
 
                 if (_holding)
                 {
-                    _holdingBox = _colliding;
-                    _holdingBox.transform.SetParent(boxHolder);
-                    _holdingBox.GetComponent<CodeBlock>().RemoveFromEval();
-                    var anchor = anchors.FirstOrDefault(x => x.direction == LookingDirection.Up);
-                    _holdingBox.transform.position = new Vector3(0f, anchor.offset.y, 0f);
-                    _holdingBox.GetComponent<BoxCollider2D>().enabled = false;
-                    SFXManager.instance.PlaySound(SFXType.Pickup);
+                    HoldBlock(_colliding);
                 }
                 else
                 {
@@ -194,6 +189,17 @@ public class PlayerManager : MonoBehaviour
                 _trophy = null;
             }
         }
+    }
+
+    public void HoldBlock(GameObject holdingBlock)
+    {
+        _holdingBox = holdingBlock;
+        _holdingBox.transform.SetParent(boxHolder);
+        _holdingBox.GetComponent<CodeBlock>().RemoveFromEval();
+        var anchor = anchors.FirstOrDefault(x => x.direction == LookingDirection.Up);
+        _holdingBox.transform.position = new Vector3(0f, anchor.offset.y, 0f);
+        _holdingBox.GetComponent<BoxCollider2D>().enabled = false;
+        SFXManager.instance.PlaySound(SFXType.Pickup);
     }
 
     private bool CanDropBlock()
