@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8838631e01449d79c379fbfbeadef5f, type: 3}
   m_Name: BuildSettings
   m_EditorClassIdentifier: 
-  itchPath: 
-  steamPath: 
-  steamDeckPath: 
-  uwpPath: 
+  itchPath: D:/GameProjects/Itch.io Butler/SchrodingersCode
+  steamPath: D:/GameProjects/Steam SDK/tools/ContentBuilder/content/SchrodingersCode
+  steamDeckPath: E:/GitProjects/Unity Builds/SchrodingersCode
+  uwpPath: E:/GitProjects/Unity Builds/SchrodingersCode
   steamDeckClientApp: steam://rungameid/943760
   steamReleasePublish: 
   steamDemoPublish: 
@@ -25,17 +25,17 @@ MonoBehaviour:
   itchBetaPublish: 
   demo: 0
   beta: 0
-  itch: 0
+  itch: 1
   steamDeck: 0
   dev: 0
   demoScenes: []
   releaseScenes: []
-  ProjectName: 
-  CompanyName: 
-  CompanyNameForUWP: 
-  BaseBuildNumber: 
-  BundleIdentifier: 
-  BundleVersionCode: 0
+  ProjectName: Schrodinger's Code
+  CompanyName: OmegaLeo
+  CompanyNameForUWP: OmegaLeo
+  BaseBuildNumber: v1.1.0
+  BundleIdentifier: pt.omegaleo.schrodingers-code
+  BundleVersionCode: 1
   KeyAliasPassword: 
   KeyStorePassword: 
   BuildNumber: 0
@@ -44,22 +44,22 @@ MonoBehaviour:
     target: 19
     folder: win
     extension: .exe
-    enabled: 1
+    enabled: 0
   - name: Linux
     target: 24
     folder: linux
     extension: .x86_64
-    enabled: 1
+    enabled: 0
   - name: Android
     target: 13
     folder: android
     extension: .apk
-    enabled: 1
+    enabled: 0
   - name: Mac OS X
     target: 2
     folder: osx
     extension: 
-    enabled: 1
+    enabled: 0
   - name: WebGL
     target: 20
     folder: webgl
@@ -69,9 +69,9 @@ MonoBehaviour:
     target: 21
     folder: uwp
     extension: 
-    enabled: 1
+    enabled: 0
   - name: SteamDeck
     target: 24
     folder: steamdeck
     extension: .x86_64
-    enabled: 1
+    enabled: 0
