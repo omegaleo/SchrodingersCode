@@ -21,23 +21,22 @@ public class CodeEval : MonoBehaviour
     
     protected virtual void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.CompareTag("CodeBlock"))
-        {
-            Vector3Int lPos = _tilemap.WorldToCell(col.transform.position);
-            var blockTile = blockTiles.FirstOrDefault(x => x.tilePos == lPos);
+        if (!col.gameObject.CompareTag("CodeBlock")) return;
+        
+        Vector3Int lPos = _tilemap.WorldToCell(col.transform.position);
+        var blockTile = blockTiles.FirstOrDefault(x => x.tilePos == lPos);
             
-            if (blockTile != null)
-            {
-                blockTile.codeBlock = col.transform;
-                blockTile.CenterBlockOnTile(_tilemap);
-                col.GetComponent<CodeBlock>().SetEval(this);
-            }
+        if (blockTile != null)
+        {
+            blockTile.codeBlock = col.transform;
+            blockTile.CenterBlockOnTile(_tilemap);
+            col.GetComponent<CodeBlock>().SetEval(this);
+        }
 
-            if (blockTiles.All(x => x.codeBlock != null))
-            {
-                EvaluateCode();
-                canEvaluate = true;
-            }
+        if (blockTiles.All(x => x.codeBlock != null))
+        {
+            EvaluateCode();
+            canEvaluate = true;
         }
     }
 
@@ -49,8 +48,8 @@ public class CodeEval : MonoBehaviour
     // public because of tests
     public virtual void EvaluateCode()
     {
-        bool isMath = blockTiles.Any(x => x.codeBlock.GetComponent<CodeBlock>().type == CodeBlockType.Operator) && 
-                      blockTiles.All(x => x.codeBlock.GetComponent<CodeBlock>().type != CodeBlockType.Condition);
+        var isMath = blockTiles.Any(x => x.codeBlock.GetComponent<CodeBlock>().type == CodeBlockType.Operator) && 
+                     blockTiles.All(x => x.codeBlock.GetComponent<CodeBlock>().type != CodeBlockType.Condition);
 
         if (blockTiles.Any(x => x.codeBlock.GetComponent<CodeBlock>().glitched))
         {
@@ -61,11 +60,10 @@ public class CodeEval : MonoBehaviour
         {
             ActivateCircuits();
 
-            if (doors != null && doors.Any())
-            {
-                SFXManager.instance.PlaySound(SFXType.DoorOpen);
-                doors.ForEach((door) => StartCoroutine(door.OpenDoor()));
-            }
+            if (doors == null || !doors.Any()) return;
+            
+            SFXManager.instance.PlaySound(SFXType.DoorOpen);
+            doors.ForEach((door) => StartCoroutine(door.OpenDoor()));
         }
         else if(!isMath)
         {
@@ -75,32 +73,30 @@ public class CodeEval : MonoBehaviour
 
     protected void ActivateCircuits()
     {
-        if (circuitTilemap != null)
+        if (circuitTilemap == null) return;
+        
+        foreach (var pos in circuitTilemap.GetTilePositions())
         {
-            foreach (var pos in circuitTilemap.GetTilePositions())
-            {
-                circuitTilemap.SetTile(pos, GameManager.instance.activatedCircuitTile);
-            }
+            circuitTilemap.SetTile(pos, GameManager.instance.activatedCircuitTile);
         }
     }
     
     protected void DeActivateCircuits()
     {
-        if (circuitTilemap != null)
+        if (circuitTilemap == null) return;
+        
+        foreach (var pos in circuitTilemap.GetTilePositions())
         {
-            foreach (var pos in circuitTilemap.GetTilePositions())
-            {
-                circuitTilemap.SetTile(pos, GameManager.instance.deActivatedCircuitTile);
-            }
+            circuitTilemap.SetTile(pos, GameManager.instance.deActivatedCircuitTile);
         }
     }
 
     public bool IterateExpression(bool isMath)
     {
-        string currentValue = "";
+        var currentValue = "";
         bool expression = false, value = false;
 
-        for (int i = 0; i < blockTiles.Count; i++)
+        for (var i = 0; i < blockTiles.Count; i++)
         {
             var block = blockTiles[i];
             var codeBlock = block.codeBlock.GetComponent<CodeBlock>();
@@ -151,19 +147,7 @@ public class CodeEval : MonoBehaviour
             }
             catch (ConditionalException e)
             {
-                var glitchBlock = blockTiles
-                    .Select(x => x.codeBlock.GetComponent<CodeBlock>())
-                    .FirstOrDefault(x => x.type == CodeBlockType.Int);
-
-                if (glitchBlock != null) 
-                {
-                    glitchBlock.ToggleGlitched();
-                    SFXManager.instance.PlaySound(SFXType.Glitch);
-                    if (onGlitch != null)
-                    {
-                        onGlitch.Invoke();
-                    }
-                }
+                ToggleGlitchedBlock();
             }
             catch (Exception e)
             {
@@ -180,19 +164,7 @@ public class CodeEval : MonoBehaviour
         }
         catch (ConditionalException e)
         {
-            var glitchBlock = blockTiles
-                .Select(x => x.codeBlock.GetComponent<CodeBlock>())
-                .FirstOrDefault(x => x.type == CodeBlockType.Int);
-
-            if (glitchBlock != null) 
-            {
-                glitchBlock.ToggleGlitched();
-                SFXManager.instance.PlaySound(SFXType.Glitch);
-                if (onGlitch != null)
-                {
-                    onGlitch.Invoke();
-                }
-            }
+            ToggleGlitchedBlock();
         }
         catch (Exception e)
         {
@@ -201,6 +173,20 @@ public class CodeEval : MonoBehaviour
         
         
         return value;
+    }
+
+    private void ToggleGlitchedBlock()
+    {
+        var glitchBlock = blockTiles
+            .Select(x => x.codeBlock.GetComponent<CodeBlock>())
+            .FirstOrDefault(x => x.type == CodeBlockType.Int);
+
+        if (glitchBlock == null) return;
+        
+        glitchBlock.ToggleGlitched();
+        SFXManager.instance.PlaySound(SFXType.Glitch);
+
+        onGlitch?.Invoke();
     }
 
     private bool EvaluateExpression(string expression)
@@ -222,30 +208,23 @@ public class CodeEval : MonoBehaviour
         var @operator = parts[1];
         var argument2 = Int32.Parse(parts[2]);
 
-        switch(@operator)
+        return @operator switch
         {
-            case "==":
-                return argument1 == argument2;
-            case ">":
-                return argument1 > argument2;
-            case ">=":
-                return argument1 >= argument2;
-            case "<":
-                return argument1 < argument2;
-            case "<=":
-                return argument1 <= argument2;
-            default:
-                return false;
-        }
+            "==" => argument1 == argument2,
+            ">" => argument1 > argument2,
+            ">=" => argument1 >= argument2,
+            "<" => argument1 < argument2,
+            "<=" => argument1 <= argument2,
+            _ => false
+        };
     }
     
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("CodeBlock"))
-        {
-            RemoveBlock(other.gameObject);
-            canEvaluate = false;
-        }
+        if (!other.gameObject.CompareTag("CodeBlock")) return;
+        
+        RemoveBlock(other.gameObject);
+        canEvaluate = false;
     }
 
     private void Start()
@@ -271,17 +250,15 @@ public class CodeEval : MonoBehaviour
 
     public void RemoveBlock(GameObject block)
     {
-        if (blockTiles.Any(x => x.codeBlock != null && x.codeBlock.gameObject == block))
-        {
-            blockTiles.FirstOrDefault(x => x.codeBlock != null && x.codeBlock.gameObject == block)!.codeBlock = null;
+        if (!blockTiles.Any(x => x.codeBlock != null && x.codeBlock.gameObject == block)) return;
+        
+        blockTiles.FirstOrDefault(x => x.codeBlock != null && x.codeBlock.gameObject == block)!.codeBlock = null;
 
-            DeActivateCircuits();
-            
-            if (doors != null && doors.Any())
-            {
-                SFXManager.instance.PlaySound(SFXType.DoorOpen);
-                doors.ForEach((door) => StartCoroutine(door.CloseDoor()));
-            }
-        }
+        DeActivateCircuits();
+
+        if (doors == null || !doors.Any()) return;
+        
+        SFXManager.instance.PlaySound(SFXType.DoorOpen);
+        doors.ForEach((door) => StartCoroutine(door.CloseDoor()));
     }
 }
