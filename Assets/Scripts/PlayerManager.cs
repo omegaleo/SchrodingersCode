@@ -132,8 +132,19 @@ public class PlayerManager : InstancedBehavior<PlayerManager>
             _movement = Vector2.zero;
             return;
         }
+
+        var movement = value.ReadValue<Vector2>();
+
+        if (movement.x < 0 || movement.x > 0)
+        {
+            movement = new Vector2(movement.x, 0);
+        }
+        else if (movement.y < 0 || movement.y > 0)
+        {
+            movement = new Vector2(0, movement.y);
+        }
         
-        _movement = value.ReadValue<Vector2>();
+        _movement = movement;
     }
 
     public void MenuDown(InputAction.CallbackContext ctx)
