@@ -43,14 +43,6 @@ public class MessageQueueHandler : MonoBehaviour
         }
     }
 
-    public void InteractDown(InputAction.CallbackContext ctx)
-    {
-        if (ctx.performed && show)
-        {
-            NextMessage();
-        }
-    }
-
     public void NextMessage()
     {
         messages.RemoveAt(0);
@@ -90,13 +82,23 @@ public class MessageQueueHandler : MonoBehaviour
     {
         messages = new List<string>();
 
+        SetPositions();
+    }
+
+    private void SetPositions()
+    {
         var bottomOfScreen = 0f - (Screen.height / 2f);
 
         var rect = GetComponent<RectTransform>();
         var offset = rect.rect.height / 2f;
-        
+
         showY = bottomOfScreen + offset;
         hideY = bottomOfScreen - offset;
         transform.localPosition = new Vector3(0f, hideY, 0f);
+    }
+
+    private void OnRectTransformDimensionsChange()
+    {
+        SetPositions();
     }
 }
